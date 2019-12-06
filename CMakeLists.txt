@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-set(PROJECT_NAME IMAPlw)
+set(PROJECT_NAME Pollster)
 set(VERSION_NUM 1.0)
 project(${PROJECT_NAME} VERSION ${VERSION_NUM})
 
