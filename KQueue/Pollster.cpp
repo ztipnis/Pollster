@@ -1,7 +1,8 @@
+#import "../Pollster.hpp"
 namespace Pollster{
 	//client member variables
 	client::client(int f): fd(f), last_cmd(std::chrono::system_clock::now()){}
-	bool client::hasExpired(std::chrono::milliseconds timeout){
+	bool client::hasExpired(std::chrono::milliseconds timeout) const{
 		auto nw =  std::chrono::system_clock::now();
 		return std::chrono::duration_cast<std::chrono::milliseconds>(nw-last_cmd) >= timeout; 
 	}
