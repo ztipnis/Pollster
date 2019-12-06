@@ -1,0 +1,4 @@
+[submodule "ThreadPool"]
+	path = ThreadPool
+	url = https://github.com/progschj/ThreadPool
+	branch = master
