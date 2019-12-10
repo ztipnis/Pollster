@@ -77,6 +77,8 @@ namespace Pollster{
 						}
 	    			}
 	    		}else{
+	    			auto it = std::find(clients.begin(), clients.end(), fd);
+	    			it->last_cmd = std::chrono::system_clock::now();
 	    			T(fd);
 	    		}
 	    	}
