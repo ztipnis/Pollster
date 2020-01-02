@@ -32,7 +32,7 @@ namespace Pollster{
 	}
 	bool Pollster::addClient(int fd){
 		T.connect(fd);
-		EV_SET(&evSet, fd, EVFILT_READ, EV_ADD | EV_ENABLE | EV_ONESHOT, 0, 0, NULL);
+		EV_SET(&evSet, fd, EVFILT_READ, EV_ADD | EV_ENABLE | EV_DISPATCH, 0, 0, NULL);
 		if(kevent(kq, &evSet, 1, NULL, 0, NULL) != -1){
 			client c(fd);
 			clients.push_back(c);
@@ -80,7 +80,16 @@ namespace Pollster{
 	    			auto it = std::find(clients.begin(), clients.end(), fd);
 	    			it->last_cmd = std::chrono::system_clock::now();
 	    			T(fd);
-	    			EV_SET(&evSet, fd, EVFILT_READ, EV_ADD | EV_ENABLE | EV_ONESHOT, 0, 0, NULL);
+	    			EV_SET(&evSet, fd, EVFILT_READ, EV_ENABLE | EV_DISPATCH, 0, 0, NULL);
+	    			if(kevent(kq, &evSet, 1, NULL, 0, NULL) == -1){
+	    				T.disconnect(clients[i].fd, "KQueue reported error rearming");
+	    				auto it = std::find(clients.begin(), clients.end(), fd);
+	    				if(it != clients.end()){
+							clients.erase(it);
+							close(fd);
+						}
+	    			}
+
 	    		}
 	    	}
 	    }
