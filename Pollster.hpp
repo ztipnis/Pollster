@@ -1,10 +1,10 @@
-#include <sys/event.h>
 #include <unistd.h>
 #include <chrono>
 #include <ctime>
 #include <string>
 #include <vector>
 #include <iostream>
+#include <algorithm>
 
 namespace Pollster{
 	class Pollster;
@@ -44,7 +44,6 @@ namespace Pollster{
 		std::chrono::milliseconds timeout;
 		const Handler& T;
 		void loop();
-		struct kevent evSet;
 	};
 
 }
