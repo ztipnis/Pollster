@@ -1,5 +1,7 @@
-#import "../Pollster.hpp"
+#include <sys/event.h>
+#include "../Pollster.hpp"
 namespace Pollster{
+	static struct kevent evSet;
 	//client member variables
 	client::client(int f): fd(f), last_cmd(std::chrono::system_clock::now()){}
 	bool client::hasExpired(std::chrono::milliseconds timeout) const{
@@ -13,7 +15,7 @@ namespace Pollster{
 			throw std::runtime_error("Unable to start pollster");
 		}
 	}
-	Pollster::Pollster(Pollster&& other) : kq(std::move(other.kq)), clients(std::move(other.clients)), clients_max(other.clients_max), timeout(other.timeout), T(other.T), evSet(other.evSet) {
+	Pollster::Pollster(Pollster&& other) : kq(std::move(other.kq)), clients(std::move(other.clients)), clients_max(other.clients_max), timeout(other.timeout), T(other.T){
 		other.kq = -1;
 	}
 	Pollster::~Pollster(){
