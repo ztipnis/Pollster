@@ -6,6 +6,9 @@
 #include <iostream>
 #include <algorithm>
 
+#ifndef __POLLSTER__H__
+#define __POLLSTER__H__
+
 namespace Pollster{
 	class Pollster;
 	class client{
@@ -47,3 +50,4 @@ namespace Pollster{
 	};
 
 }
+#endif
