@@ -61,7 +61,7 @@ namespace Pollster{
 		struct epoll_event evList[32];
 		int nev;
 	    while(1){
-	    	nev = epoll_wait(kq, events, MAX_EVENTS, -1);;
+	    	nev = epoll_wait(kq, evList, 32, -1);;
 	    	if(nev < 1){
 	    		for(int i = 0; i < clients.size(); i++){
 	    			T.disconnect(clients[i].fd, "EPoll reported error polling for events");
@@ -69,8 +69,8 @@ namespace Pollster{
 	    		throw std::runtime_error("EPoll reported error polling for events");
 	    	}
 	    	for(int i = 0; i < nev; i++){
-	    		int fd = evList[i].ident;
-	    		if(evList[i].event & EPOLLRDHUP){
+	    		int fd = evList[i].data.fd;
+	    		if(evList[i].events & EPOLLRDHUP){
     				auto it = std::find(clients.begin(), clients.end(), fd);
     				if(it != clients.end()){
 						clients.erase(it);
