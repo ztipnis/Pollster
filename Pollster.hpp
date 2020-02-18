@@ -15,7 +15,7 @@ namespace Pollster{
 	public:
 		int fd;
 		std::chrono::time_point<std::chrono::system_clock> last_cmd;
-		client(int f);
+		explicit client(int f);
 		bool operator==(int f) const{ return fd == f;}
 		bool hasExpired(std::chrono::milliseconds timeout) const;
 	};
